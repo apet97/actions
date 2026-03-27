@@ -1,0 +1,616 @@
+/* HTTP Actions Sidebar Styles */
+
+body {
+    margin: 0;
+    padding: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Header */
+.ha-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cl-border-color, #e4e7eb);
+}
+
+/* Action List */
+.ha-action-list {
+    margin-bottom: 16px;
+}
+
+.ha-action-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    border: 1px solid var(--cl-border-color, #e4e7eb);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.ha-action-card:hover {
+    background-color: var(--cl-hover-bg, #f5f7fa);
+}
+
+.ha-action-card:focus-visible {
+    outline: 2px solid var(--cl-primary-color, #03a9f4);
+    outline-offset: 2px;
+}
+
+.ha-action-card-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.ha-action-card-info .clockify-text-body2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ha-action-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* Form */
+.ha-form {
+    margin-bottom: 16px;
+}
+
+.ha-field {
+    margin-bottom: 12px;
+}
+
+.ha-field label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ha-row {
+    display: flex;
+    gap: 8px;
+}
+
+.ha-method-select {
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.ha-url-input {
+    flex: 1;
+}
+
+/* Headers key-value */
+.ha-header-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
+.ha-header-key {
+    width: 35%;
+    flex-shrink: 0;
+}
+
+.ha-header-value {
+    flex: 1;
+}
+
+.ha-remove-header {
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+}
+
+/* Body textarea */
+.ha-body-textarea {
+    width: 100%;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 100px;
+    box-sizing: border-box;
+}
+
+/* Actions bar */
+.ha-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cl-border-color, #e4e7eb);
+}
+
+.ha-actions-right {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.ha-switch {
+    display: flex;
+    align-items: center;
+}
+
+/* Logs */
+.ha-logs-section {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--cl-border-color, #e4e7eb);
+}
+
+.ha-logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.clockify-table {
+    width: 100%;
+    font-size: 12px;
+}
+
+.clockify-table td {
+    padding: 6px 8px;
+}
+
+.clockify-table th {
+    padding: 6px 8px;
+    text-align: left;
+    font-weight: 600;
+}
+
+/* Log status colors */
+.ha-status-success td:nth-child(3) .status {
+    color: #0cce6b;
+}
+
+.ha-status-client-error td:nth-child(3) .status {
+    color: #f0a500;
+}
+
+.ha-status-error td:nth-child(3) .status {
+    color: #ef4444;
+}
+
+/* Response body in test modal */
+.ha-response-body {
+    background: var(--cl-code-bg, #f5f7fa);
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Empty state */
+.ha-empty-state {
+    text-align: center;
+    padding: 24px 12px;
+}
+
+/* Loading overlay */
+.ha-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Modal overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-dialog {
+    background: var(--cl-card-bg, #fff);
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--cl-border-color, #e4e7eb);
+}
+
+.modal-body {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--cl-border-color, #e4e7eb);
+    text-align: right;
+}
+
+/* =========================================
+   Dark Mode — Comprehensive Styles
+   Clockify dark bg: #16171a
+   ========================================= */
+
+/* Body */
+body.dark {
+    background-color: #16171a;
+    color: #e4e7eb;
+}
+
+/* Header */
+body.dark .ha-header {
+    border-bottom-color: #2d2f34;
+}
+
+/* Action cards */
+body.dark .ha-action-card {
+    border-color: #2d2f34;
+}
+
+body.dark .ha-action-card:hover {
+    background-color: #1e2024;
+}
+
+/* Cards (generic Clockify card component) */
+body.dark .clockify-card {
+    background-color: #1e2024;
+    border-color: #2d2f34;
+}
+
+/* Form inputs */
+body.dark .clockify-input,
+body.dark .clockify-select,
+body.dark select,
+body.dark textarea,
+body.dark input[type="text"],
+body.dark input[type="url"],
+body.dark input[type="password"],
+body.dark input[type="number"] {
+    background-color: #1e2024;
+    border-color: #3d3f44;
+    color: #e4e7eb;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+body.dark .clockify-input:focus,
+body.dark textarea:focus,
+body.dark select:focus {
+    border-color: var(--cl-primary, #03a9f4);
+}
+
+body.dark .clockify-input::placeholder,
+body.dark textarea::placeholder {
+    color: #6b7280;
+}
+
+/* Body textarea (monospace editor) */
+body.dark .ha-body-textarea {
+    background-color: #1e2024;
+    border-color: #3d3f44;
+    color: #e4e7eb;
+}
+
+/* Table */
+body.dark .clockify-table th {
+    color: #8b8e95;
+}
+
+body.dark .clockify-table td {
+    border-bottom-color: #2d2f34;
+}
+
+body.dark .clockify-table tr:hover {
+    background-color: #1e2024;
+}
+
+/* Logs section */
+body.dark .ha-logs-section {
+    border-top-color: #2d2f34;
+}
+
+/* Actions bar */
+body.dark .ha-actions-bar {
+    border-top-color: #2d2f34;
+}
+
+/* Empty state */
+body.dark .ha-empty-state {
+    color: #6b7280;
+}
+
+/* Loading overlay */
+body.dark .ha-loading {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Response body / code blocks */
+body.dark .ha-response-body {
+    background: #1e2024;
+    color: #e4e7eb;
+}
+
+/* Modal */
+body.dark .modal-dialog {
+    background: #1e2024;
+    border-color: #2d2f34;
+}
+
+body.dark .modal-header {
+    border-bottom-color: #2d2f34;
+}
+
+body.dark .modal-footer {
+    border-top-color: #2d2f34;
+}
+
+/* Labels */
+body.dark .clockify-text-label,
+body.dark label {
+    color: #8b8e95;
+}
+
+/* Body text */
+body.dark .clockify-text-body2,
+body.dark .clockify-text-body3 {
+    color: #e4e7eb;
+}
+
+body.dark .clockify-text-caption {
+    color: #8b8e95;
+}
+
+/* Switch component */
+body.dark .ha-switch .clockify-switch {
+    background-color: #3d3f44;
+}
+
+/* Header row in key-value pairs */
+body.dark .ha-header-row .ha-remove-header {
+    color: #8b8e95;
+}
+
+body.dark .ha-header-row .ha-remove-header:hover {
+    color: #ef4444;
+}
+
+/* Dropdown */
+body.dark .clockify-dropdown {
+    background-color: #1e2024;
+    border-color: #3d3f44;
+}
+
+body.dark .clockify-dropdown-menu {
+    background-color: #1e2024;
+    border-color: #2d2f34;
+}
+
+body.dark .clockify-dropdown-item:hover {
+    background-color: #2d2f34;
+}
+
+/* Buttons — keep primary as-is, adjust secondary/ghost */
+body.dark .clockify-btn--secondary {
+    border-color: #3d3f44;
+    color: #e4e7eb;
+}
+
+body.dark .clockify-btn--secondary:hover {
+    background-color: #2d2f34;
+}
+
+body.dark .clockify-btn--ghost {
+    color: #e4e7eb;
+}
+
+body.dark .clockify-btn--ghost:hover {
+    background-color: #2d2f34;
+}
+
+/* Status badge colors — keep consistent across themes */
+body.dark .ha-status-success td:nth-child(3) .status {
+    color: #0cce6b;
+}
+
+body.dark .ha-status-client-error td:nth-child(3) .status {
+    color: #f0a500;
+}
+
+body.dark .ha-status-error td:nth-child(3) .status {
+    color: #ef4444;
+}
+
+/* Scrollbar styling for dark mode */
+body.dark ::-webkit-scrollbar {
+    width: 6px;
+}
+
+body.dark ::-webkit-scrollbar-track {
+    background: #16171a;
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+    background: #3d3f44;
+    border-radius: 3px;
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+    background: #555860;
+}
+
+/* Code tag in hint text */
+code {
+    background: var(--cl-code-bg, #f0f2f5);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+body.dark code {
+    background: #2d2f34;
+    color: #e4e7eb;
+}
+
+/* =========================================
+   P1/P2 Feature Styles
+   ========================================= */
+
+/* Header buttons */
+.ha-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Advanced settings toggle */
+.ha-advanced {
+    margin-bottom: 12px;
+    border: 1px solid var(--cl-border-color, #e4e7eb);
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.ha-advanced-toggle {
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+}
+
+.ha-advanced[open] .ha-advanced-toggle {
+    margin-bottom: 12px;
+}
+
+body.dark .ha-advanced {
+    border-color: #2d2f34;
+}
+
+/* Condition rows */
+.ha-condition-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
+.ha-cond-field {
+    width: 35%;
+    flex-shrink: 0;
+}
+
+.ha-cond-op {
+    width: 110px;
+    flex-shrink: 0;
+}
+
+.ha-cond-value {
+    flex: 1;
+}
+
+/* Variable hints */
+.ha-variable-hints {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: var(--cl-code-bg, #f5f7fa);
+    border-radius: 4px;
+}
+
+body.dark .ha-variable-hints {
+    background: #1e2024;
+}
+
+.ha-variable-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.ha-variable-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--cl-primary-bg, #e3f2fd);
+    color: var(--cl-primary, #03a9f4);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ha-variable-chip:hover {
+    background: var(--cl-primary, #03a9f4);
+    color: #fff;
+}
+
+body.dark .ha-variable-chip {
+    background: #2d2f34;
+    color: #03a9f4;
+}
+
+body.dark .ha-variable-chip:hover {
+    background: #03a9f4;
+    color: #fff;
+}
+
+/* Template modal cards */
+#template-list .ha-action-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+#template-list .ha-action-card-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}

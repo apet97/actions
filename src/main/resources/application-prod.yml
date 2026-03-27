@@ -1,0 +1,35 @@
+server:
+  tomcat:
+    max-connections: 200
+    threads:
+      max: 100
+      min-spare: 10
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 5000
+      leak-detection-threshold: 30000
+
+addon:
+  outbound:
+    allow-http: false
+
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+
+server:
+  error:
+    include-stacktrace: never
+    include-message: never
+
+logging:
+  level:
+    com.httpactions: INFO

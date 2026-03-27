@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{sidebar.pageTitle}">HTTP Actions</title>
+    <link rel="stylesheet" href="https://resources.developer.clockify.me/ui/latest/css/main.min.css">
+    <link rel="stylesheet" th:href="@{/static/css/sidebar.css}">
+</head>
+<body th:classappend="${isDark} ? 'dark' : ''"
+      th:attr="data-language=${language},data-timezone=${timezone}">
+
+<!-- Header -->
+<div class="ha-header">
+    <span class="clockify-text clockify-text-body1" th:text="#{sidebar.title}">HTTP Actions</span>
+    <div class="ha-header-buttons">
+        <button class="link sm" id="btn-import-export" th:title="#{sidebar.header.importExport}" th:aria-label="#{sidebar.header.importExport}">&#8693;</button>
+        <button class="link sm" id="btn-from-template" th:title="#{sidebar.header.newFromTemplate}" th:aria-label="#{sidebar.header.newFromTemplate}">&#9881;</button>
+        <button class="default sm" id="btn-new-action" th:text="#{sidebar.header.newAction}">+ New Action</button>
+    </div>
+</div>
+
+<!-- Action List -->
+<div id="action-list" class="ha-action-list">
+    <!-- Populated by JS -->
+</div>
+
+<!-- Action Builder Form (hidden by default) -->
+<div id="action-form" class="ha-form" style="display: none;">
+    <div class="clockify-card">
+        <div class="clockify-card__header">
+            <div class="clockify-card__title" id="form-title" th:text="#{sidebar.form.newAction}">New Action</div>
+            <button class="link sm" id="btn-close-form" th:aria-label="#{sidebar.modal.closeForm}">&times;</button>
+        </div>
+        <div class="clockify-card__body">
+            <!-- Name -->
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" for="input-name" th:text="#{sidebar.form.name}">Name</label>
+                <input class="clockify-input" id="input-name" th:placeholder="#{sidebar.form.namePlaceholder}" maxlength="128">
+            </div>
+
+            <!-- Event Type -->
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" for="input-event-type" th:text="#{sidebar.form.triggerEvent}">Trigger Event</label>
+                <select class="clockify-input" id="input-event-type">
+                    <option value="" th:text="#{sidebar.form.selectEvent}">Select event...</option>
+                    <option value="NEW_TIME_ENTRY">NEW_TIME_ENTRY</option>
+                    <option value="TIME_ENTRY_UPDATED">TIME_ENTRY_UPDATED</option>
+                    <option value="TIME_ENTRY_DELETED">TIME_ENTRY_DELETED</option>
+                    <option value="NEW_TIMER_STARTED">NEW_TIMER_STARTED</option>
+                    <option value="TIMER_STOPPED">TIMER_STOPPED</option>
+                    <option value="NEW_PROJECT">NEW_PROJECT</option>
+                    <option value="NEW_CLIENT">NEW_CLIENT</option>
+                    <option value="NEW_INVOICE">NEW_INVOICE</option>
+                    <option value="USER_JOINED_WORKSPACE">USER_JOINED_WORKSPACE</option>
+                    <option value="NEW_TASK">NEW_TASK</option>
+                </select>
+            </div>
+
+            <!-- Method + URL -->
+            <div class="ha-field ha-row">
+                <label class="sr-only" for="input-method" th:text="#{sidebar.form.method}">HTTP Method</label>
+                <select class="clockify-input ha-method-select" id="input-method">
+                    <option value="GET">GET</option>
+                    <option value="POST" selected>POST</option>
+                    <option value="PUT">PUT</option>
+                    <option value="PATCH">PATCH</option>
+                    <option value="DELETE">DELETE</option>
+                </select>
+                <label class="sr-only" for="input-url" th:text="#{sidebar.form.url}">Request URL</label>
+                <input class="clockify-input ha-url-input" id="input-url"
+                       th:placeholder="#{sidebar.form.urlPlaceholder}" maxlength="2048">
+            </div>
+
+            <!-- Headers -->
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" th:text="#{sidebar.form.headers}">Headers</label>
+                <div id="headers-container">
+                    <!-- Header rows added by JS -->
+                </div>
+                <button class="link sm" id="btn-add-header" th:text="#{sidebar.form.addHeader}">+ Add Header</button>
+            </div>
+
+            <!-- Body -->
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" for="input-body" th:text="#{sidebar.form.body}">Body</label>
+                <textarea class="clockify-input ha-body-textarea" id="input-body"
+                          th:placeholder="#{sidebar.form.bodyPlaceholder}"
+                          rows="6"></textarea>
+                <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.bodyHelp}">
+                    Use <code>{{event.field}}</code> for payload data, <code>{{meta.workspaceId}}</code> for metadata
+                </span>
+            </div>
+
+            <!-- Retry Count -->
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" for="input-retry" th:text="#{sidebar.form.retries}">Retries (on 5xx/timeout)</label>
+                <input class="clockify-input" id="input-retry" type="number" min="0" max="10" value="3" style="width: 80px;">
+            </div>
+
+            <!-- Advanced Settings (collapsible) -->
+            <details class="ha-advanced">
+                <summary class="clockify-text clockify-text-label ha-advanced-toggle" th:text="#{sidebar.form.advanced}">Advanced Settings</summary>
+
+                <!-- HMAC Signing Secret (M23) -->
+                <div class="ha-field">
+                    <label class="clockify-text clockify-text-label" for="input-signing-secret" th:text="#{sidebar.form.signingSecret}">HMAC Signing Secret</label>
+                    <input class="clockify-input" id="input-signing-secret" type="password" th:placeholder="#{sidebar.form.signingSecretPlaceholder}" autocomplete="off">
+                    <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.signingSecretHelp}">
+                        Adds an <code>X-HTTP-Actions-Signature</code> header with HMAC-SHA256 of the request body.
+                    </span>
+                </div>
+
+                <!-- Chain Order -->
+                <div class="ha-field">
+                    <label class="clockify-text clockify-text-label" for="input-chain-order" th:text="#{sidebar.form.chainOrder}">Chain Order</label>
+                    <input class="clockify-input" id="input-chain-order" type="number" min="1" max="100" th:placeholder="#{sidebar.form.chainOrderPlaceholder}" style="width: 120px;">
+                    <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.chainOrderHelp}">
+                        Actions with a chain order execute sequentially. <code>{{prev.body}}</code> and <code>{{prev.status}}</code> available.
+                    </span>
+                </div>
+
+                <!-- Cron Expression -->
+                <div class="ha-field">
+                    <label class="clockify-text clockify-text-label" for="input-cron" th:text="#{sidebar.form.schedule}">Schedule (cron)</label>
+                    <input class="clockify-input" id="input-cron" th:placeholder="#{sidebar.form.schedulePlaceholder}" style="width: 240px;">
+                    <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.scheduleHelp}">
+                        Optional. Fires the action on a schedule in addition to webhook events.
+                    </span>
+                </div>
+
+                <!-- Execution Conditions -->
+                <div class="ha-field">
+                    <label class="clockify-text clockify-text-label" th:text="#{sidebar.form.executionConditions}">Execution Conditions</label>
+                    <div id="conditions-container">
+                        <!-- Condition rows added by JS -->
+                    </div>
+                    <button class="link sm" id="btn-add-condition" th:text="#{sidebar.form.addCondition}">+ Add Condition</button>
+                    <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.executionConditionsHelp}">
+                        Only execute if ALL conditions match the webhook payload.
+                    </span>
+                </div>
+
+                <!-- Response Success Conditions -->
+                <div class="ha-field">
+                    <label class="clockify-text clockify-text-label" th:text="#{sidebar.form.successConditions}">Success Conditions</label>
+                    <div id="success-conditions-container">
+                        <!-- Success condition rows added by JS -->
+                    </div>
+                    <button class="link sm" id="btn-add-success-condition" th:text="#{sidebar.form.addCondition}">+ Add Condition</button>
+                    <span class="clockify-text clockify-text-caption text-muted" th:text="#{sidebar.form.successConditionsHelp}">
+                        Override default 2xx success check. E.g. require body to contain a specific string.
+                    </span>
+                </div>
+            </details>
+
+            <!-- Variable Hints -->
+            <div id="variable-hints" class="ha-variable-hints" style="display: none;">
+                <label class="clockify-text clockify-text-label" th:text="#{sidebar.form.availableVariables}">Available Variables</label>
+                <div id="variable-list" class="ha-variable-list">
+                    <!-- Populated by JS when event type is selected -->
+                </div>
+            </div>
+
+            <!-- Actions bar -->
+            <div class="ha-actions-bar">
+                <button class="default sm" id="btn-test"><span aria-hidden="true">&#9654;</span> <span th:text="#{sidebar.form.test}">Test</span></button>
+                <label class="clockify-switch ha-switch">
+                    <input type="checkbox" id="input-enabled" checked>
+                    <span class="slider"></span>
+                    <span class="clockify-switch-label" th:text="#{sidebar.form.enabled}">Enabled</span>
+                </label>
+                <div class="ha-actions-right">
+                    <button class="danger sm" id="btn-delete" style="display: none;" th:text="#{sidebar.form.delete}">Delete</button>
+                    <button class="default sm" id="btn-save" th:text="#{sidebar.form.save}">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test Result Modal -->
+<div id="test-modal" class="modal" style="display: none;" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div class="modal-title" th:text="#{sidebar.modal.testResult}">Test Result</div>
+            <button class="modal-close close-icon" id="btn-close-modal" th:aria-label="#{sidebar.modal.closeTestResult}"></button>
+        </div>
+        <div class="modal-body">
+            <div id="test-result-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="default sm" id="btn-close-modal-footer" th:text="#{sidebar.modal.close}">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Template Selector Modal -->
+<div id="template-modal" class="modal" style="display: none;" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div class="modal-title" th:text="#{sidebar.modal.templateTitle}">New from Template</div>
+            <button class="modal-close close-icon" id="btn-close-template-modal" th:aria-label="#{sidebar.modal.closeTemplateSelector}"></button>
+        </div>
+        <div class="modal-body">
+            <div id="template-list">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import/Export Modal -->
+<div id="import-export-modal" class="modal" style="display: none;" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <div class="modal-title" th:text="#{sidebar.modal.importExportTitle}">Import / Export Actions</div>
+            <button class="modal-close close-icon" id="btn-close-ie-modal" th:aria-label="#{sidebar.modal.closeImportExport}"></button>
+        </div>
+        <div class="modal-body">
+            <div class="ha-field">
+                <button class="default sm" id="btn-export" style="width: 100%; margin-bottom: 12px;" th:text="#{sidebar.modal.exportButton}">Export All Actions (JSON)</button>
+            </div>
+            <div class="ha-field">
+                <label class="clockify-text clockify-text-label" for="import-json" th:text="#{sidebar.modal.importLabel}">Import from JSON</label>
+                <textarea class="clockify-input ha-body-textarea" id="import-json" th:placeholder="#{sidebar.modal.importPlaceholder}" rows="6"></textarea>
+                <button class="default sm" id="btn-import" style="width: 100%; margin-top: 8px;" th:text="#{sidebar.modal.importButton}">Import Actions</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Execution Logs -->
+<div id="logs-section" class="ha-logs-section">
+    <div class="ha-logs-header">
+        <span class="clockify-text clockify-text-body2" th:text="#{sidebar.logs.title}">Recent Executions</span>
+        <button class="link sm" id="btn-refresh-logs" th:text="#{sidebar.logs.refresh}">Refresh</button>
+    </div>
+    <table class="clockify-table" id="logs-table">
+        <thead>
+            <tr>
+                <th scope="col" th:text="#{sidebar.logs.time}">Time</th>
+                <th scope="col" th:text="#{sidebar.logs.event}">Event</th>
+                <th scope="col" th:text="#{sidebar.logs.status}">Status</th>
+                <th scope="col" th:text="#{sidebar.logs.duration}">Duration</th>
+            </tr>
+        </thead>
+        <tbody id="logs-tbody">
+            <!-- Populated by JS -->
+        </tbody>
+    </table>
+    <div id="logs-empty" class="ha-empty-state clockify-text clockify-text-caption text-muted">
+        <span th:text="#{sidebar.logs.empty}">No executions yet. Create an action and trigger an event.</span>
+    </div>
+</div>
+
+<script src="https://resources.developer.clockify.me/ui/latest/js/main.min.js"></script>
+<script th:inline="javascript">
+    window.APP_CONFIG = {
+        language: /*[[${language}]]*/ 'en',
+        timezone: /*[[${timezone}]]*/ '',
+        messages: {
+            sessionExpired: /*[[#{sidebar.js.sessionExpired}]]*/ 'Session expired. Please reload.',
+            emptyActions: /*[[#{sidebar.js.emptyActions}]]*/ 'No actions yet. Click "+ New Action" to get started.',
+            formNewAction: /*[[#{sidebar.form.newAction}]]*/ 'New Action',
+            formEditAction: /*[[#{sidebar.form.editAction}]]*/ 'Edit Action',
+            actionUpdated: /*[[#{sidebar.js.actionUpdated}]]*/ 'Action updated',
+            actionCreated: /*[[#{sidebar.js.actionCreated}]]*/ 'Action created',
+            saveFailed: /*[[#{sidebar.js.saveFailed}]]*/ 'Failed to save action',
+            deleteConfirm: /*[[#{sidebar.js.deleteConfirm}]]*/ 'Delete this action? This cannot be undone.',
+            actionDeleted: /*[[#{sidebar.js.actionDeleted}]]*/ 'Action deleted',
+            deleteFailed: /*[[#{sidebar.js.deleteFailed}]]*/ 'Failed to delete action',
+            saveBeforeTest: /*[[#{sidebar.js.saveBeforeTest}]]*/ 'Save the action first before testing',
+            sendingTest: /*[[#{sidebar.js.sendingTest}]]*/ 'Sending test request...',
+            testFailed: /*[[#{sidebar.js.testFailed}]]*/ 'Test failed',
+            testSuccess: /*[[#{sidebar.js.testSuccess}]]*/ 'Success',
+            testFailure: /*[[#{sidebar.js.testFailure}]]*/ 'Failed',
+            responseBody: /*[[#{sidebar.js.responseBody}]]*/ 'Response Body',
+            responseHeaders: /*[[#{sidebar.js.responseHeaders}]]*/ 'Response Headers',
+            exportFailed: /*[[#{sidebar.js.exportFailed}]]*/ 'Export failed',
+            importPasteFirst: /*[[#{sidebar.js.importPasteFirst}]]*/ 'Paste JSON data first',
+            invalidJson: /*[[#{sidebar.js.invalidJson}]]*/ 'Invalid JSON',
+            jsonMustBeArray: /*[[#{sidebar.js.jsonMustBeArray}]]*/ 'JSON must be an array of actions',
+            importFailed: /*[[#{sidebar.js.importFailed}]]*/ 'Import failed',
+            unknownError: /*[[#{sidebar.js.unknownError}]]*/ 'Unknown error',
+            nameRequired: /*[[#{sidebar.js.nameRequired}]]*/ 'Name is required',
+            selectTrigger: /*[[#{sidebar.js.selectTrigger}]]*/ 'Select a trigger event',
+            urlRequired: /*[[#{sidebar.js.urlRequired}]]*/ 'URL is required',
+            urlMustStart: /*[[#{sidebar.js.urlMustStart}]]*/ 'URL must start with http:// or https://',
+            headerName: /*[[#{sidebar.js.headerName}]]*/ 'Header name',
+            headerValue: /*[[#{sidebar.js.headerValue}]]*/ 'Value',
+            editActionAria: /*[[#{sidebar.js.editActionAria}]]*/ 'Edit action: {0}',
+            statusActive: /*[[#{sidebar.js.statusActive}]]*/ 'Active',
+            statusDisabled: /*[[#{sidebar.js.statusDisabled}]]*/ 'Disabled',
+            conditionFieldPlaceholder: /*[[#{sidebar.js.conditionFieldPlaceholder}]]*/ 'event.field.path',
+            conditionValuePlaceholder: /*[[#{sidebar.js.conditionValuePlaceholder}]]*/ 'Value',
+            successConditionPlaceholder: /*[[#{sidebar.js.successConditionPlaceholder}]]*/ 'e.g. 200-299 or "success"',
+            noTemplatesAvailable: /*[[#{sidebar.js.noTemplatesAvailable}]]*/ 'No templates available.',
+            failedToLoadTemplates: /*[[#{sidebar.js.failedToLoadTemplates}]]*/ 'Failed to load templates.',
+            statusErr: /*[[#{sidebar.js.statusErr}]]*/ 'ERR',
+            exportedTemplate: /*[[#{sidebar.js.exported}]]*/ 'Exported {0} action(s). Copy the JSON below.',
+            importedTemplate: /*[[#{sidebar.js.imported}]]*/ 'Imported {0} action(s), skipped {1}'
+        }
+    };
+</script>
+<script th:src="@{/static/js/sidebar.js}"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+services:
+  addon:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-dev}
+      ADDON_BASE_URL: ${NGROK_URL}
+      ADDON_KEY: clockify-http-actions
+      DB_URL: jdbc:postgresql://db:5432/httpactions
+      DB_USER: httpactions
+      DB_PASSWORD: dev-password
+      TOKEN_ENCRYPTION_KEY: ${TOKEN_ENCRYPTION_KEY}
+      TOKEN_ENCRYPTION_SALT: ${TOKEN_ENCRYPTION_SALT}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: httpactions
+      POSTGRES_USER: httpactions
+      POSTGRES_PASSWORD: dev-password
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U httpactions"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+volumes:
+  pgdata:

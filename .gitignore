@@ -1,0 +1,10 @@
+target/
+.env
+*.pem
+!src/main/resources/clockify-public-key.pem
+.idea/
+*.iml
+.DS_Store
+node_modules/
+tokens.json
+.claude/

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{widget.title}">HTTP Actions Widget</title>
+    <link rel="stylesheet" href="https://resources.developer.clockify.me/ui/latest/css/main.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: transparent;
+        }
+        .widget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .widget-stat {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color, #e0e0e0);
+            background: var(--card-bg, #fff);
+        }
+        .widget-stat__value {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-primary, #333);
+        }
+        .widget-stat__label {
+            font-size: 11px;
+            color: var(--text-secondary, #888);
+            margin-top: 2px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge--green {
+            background: #e6f9ed;
+            color: #1b8a4a;
+        }
+        .badge--yellow {
+            background: #fff8e1;
+            color: #b8860b;
+        }
+        .badge--red {
+            background: #fde8e8;
+            color: #c53030;
+        }
+
+        /* M24: Dark mode colors aligned with sidebar.css (#2d2f34) */
+        body.dark {
+            --border-color: #2d2f34;
+            --card-bg: #2d2f34;
+            --text-primary: #e0e0e0;
+            --text-secondary: #999;
+        }
+        body.dark .badge--green {
+            background: #1a3a28;
+            color: #6fcf97;
+        }
+        body.dark .badge--yellow {
+            background: #3a3520;
+            color: #f0c040;
+        }
+        body.dark .badge--red {
+            background: #3a2020;
+            color: #f56565;
+        }
+    </style>
+</head>
+<body th:classappend="${isDark} ? 'dark' : ''"
+      th:attr="data-language=${language},data-timezone=${timezone}">
+
+<div class="widget-grid">
+    <!-- Active Actions -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" th:text="${stats.activeActionCount}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.activeActions}">Active Actions</div>
+    </div>
+
+    <!-- 24h Executions -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" th:text="${stats.totalExecutions24h}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.executions24h}">Executions (24h)</div>
+    </div>
+
+    <!-- 24h Failures -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" th:text="${stats.failedExecutions24h}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.failures24h}">Failures (24h)</div>
+    </div>
+
+    <!-- Success Rate -->
+    <div class="widget-stat">
+        <div class="widget-stat__value">
+            <span class="badge"
+                  th:attr="aria-label=${rateBadgePrefix} + ' ' + #{widget.successRate}"
+                  th:classappend="'badge--' + ${rateClass}"
+                  th:text="${rateBadgePrefix} + ' ' + ${#numbers.formatDecimal(stats.successRate24h, 1, 1)} + '%'">OK 100.0%</span>
+        </div>
+        <div class="widget-stat__label" th:text="#{widget.successRate}">Success Rate</div>
+    </div>
+</div>
+
+<script>
+    setInterval(function () {
+        fetch(window.location.pathname + window.location.search, { headers: { 'X-Requested-With': 'fetch' } })
+            .then(function (response) { return response.text(); })
+            .then(function (html) {
+                var doc = new DOMParser().parseFromString(html, 'text/html');
+                var nextGrid = doc.querySelector('.widget-grid');
+                var currentGrid = document.querySelector('.widget-grid');
+                if (nextGrid && currentGrid) {
+                    currentGrid.replaceWith(nextGrid);
+                }
+            })
+            .catch(function () { /* non-critical */ });
+    }, 60000);
+</script>
+</body>
+</html>
