@@ -1,0 +1,60 @@
+:root {
+    --ha-surface: #ffffff;
+    --ha-surface-muted: #f5f7fa;
+    --ha-surface-elevated: #ffffff;
+    --ha-border: #e4e7eb;
+    --ha-text: #1f2937;
+    --ha-text-muted: #6b7280;
+    --ha-accent: #03a9f4;
+    --ha-accent-bg: #e3f2fd;
+    --ha-code-bg: #f0f2f5;
+    --ha-success: #1b8a4a;
+    --ha-success-bg: #e6f9ed;
+    --ha-warning: #b8860b;
+    --ha-warning-bg: #fff8e1;
+    --ha-danger: #c53030;
+    --ha-danger-bg: #fde8e8;
+}
+
+body.dark {
+    --ha-surface: #16171a;
+    --ha-surface-muted: #1e2024;
+    --ha-surface-elevated: #1e2024;
+    --ha-border: #2d2f34;
+    --ha-text: #e4e7eb;
+    --ha-text-muted: #8b8e95;
+    --ha-accent: #4fc3f7;
+    --ha-accent-bg: #203646;
+    --ha-code-bg: #20232a;
+    --ha-success: #6fcf97;
+    --ha-success-bg: #1a3a28;
+    --ha-warning: #f0c040;
+    --ha-warning-bg: #3a3520;
+    --ha-danger: #f56565;
+    --ha-danger-bg: #3a2020;
+}
+
+.ha-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.ha-badge--green {
+    background: var(--ha-success-bg);
+    color: var(--ha-success);
+}
+
+.ha-badge--yellow {
+    background: var(--ha-warning-bg);
+    color: var(--ha-warning);
+}
+
+.ha-badge--red {
+    background: var(--ha-danger-bg);
+    color: var(--ha-danger);
+}

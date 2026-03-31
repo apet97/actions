@@ -1,0 +1,12 @@
+addon:
+  base-url: ${NGROK_URL:}
+  outbound:
+    allow-http: true
+
+logging:
+  level:
+    com.httpactions: DEBUG
+
+spring:
+  jpa:
+    show-sql: true

@@ -1,0 +1,631 @@
+/* HTTP Actions Sidebar Styles */
+
+html {
+    font-size: 87.5%;
+}
+
+body {
+    margin: 0;
+    padding: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: var(--ha-surface);
+    color: var(--ha-text);
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+/* Header */
+.ha-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ha-border);
+}
+
+/* Action List */
+.ha-action-list {
+    margin-bottom: 16px;
+}
+
+.ha-action-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    border: 1px solid var(--ha-border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.ha-action-card:hover {
+    background-color: var(--ha-surface-muted);
+}
+
+.ha-action-card:focus-visible {
+    outline: 2px solid var(--ha-accent);
+    outline-offset: 2px;
+}
+
+.ha-action-card-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.ha-action-card-info .clockify-text-body2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ha-action-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* Form */
+.ha-form {
+    margin-bottom: 16px;
+}
+
+.ha-field {
+    margin-bottom: 12px;
+}
+
+.ha-field label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.ha-row {
+    display: flex;
+    gap: 8px;
+}
+
+.ha-method-select {
+    width: 100px;
+    flex-shrink: 0;
+}
+
+.ha-url-input {
+    flex: 1;
+}
+
+/* Headers key-value */
+.ha-header-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
+.ha-header-key {
+    width: 35%;
+    flex-shrink: 0;
+}
+
+.ha-header-value {
+    flex: 1;
+}
+
+.ha-remove-header {
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+}
+
+/* Inputs — ensure minimum touch-friendly height */
+.clockify-input,
+select.clockify-input,
+input.clockify-input {
+    min-height: 36px;
+    font-size: 13px;
+}
+
+/* Body textarea */
+.ha-body-textarea {
+    width: 100%;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 120px;
+    box-sizing: border-box;
+}
+
+
+/* Actions bar */
+.ha-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ha-border);
+}
+
+.ha-actions-right {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.ha-switch {
+    display: flex;
+    align-items: center;
+}
+
+/* Logs */
+.ha-logs-section {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ha-border);
+}
+
+.ha-logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.clockify-table {
+    width: 100%;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+.clockify-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--ha-border);
+}
+
+.clockify-table th {
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--ha-border);
+}
+
+/* Log status colors */
+.ha-status-success td:nth-child(3) .status {
+    color: var(--ha-success);
+}
+
+.ha-status-client-error td:nth-child(3) .status {
+    color: var(--ha-warning);
+}
+
+.ha-status-error td:nth-child(3) .status {
+    color: var(--ha-danger);
+}
+
+/* Response body in test modal */
+.ha-response-body {
+    background: var(--ha-code-bg);
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Empty state */
+.ha-empty-state {
+    text-align: center;
+    padding: 24px 12px;
+}
+
+/* Loading indicator — cursor only, no overlay that blocks interaction */
+.ha-loading {
+    cursor: wait;
+}
+.ha-loading * {
+    cursor: wait;
+}
+
+/* Modal overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal-dialog {
+    background: var(--ha-surface-elevated);
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--ha-border);
+}
+
+.modal-body {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--ha-border);
+    text-align: right;
+}
+
+.ha-session-banner {
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--ha-danger);
+    border-radius: 6px;
+    background: var(--ha-danger-bg);
+    color: var(--ha-danger);
+    font-size: 12px;
+}
+
+/* =========================================
+   Dark Mode — Comprehensive Styles
+   Clockify dark bg: #16171a
+   ========================================= */
+
+/* Body */
+body.dark .clockify-card {
+    background-color: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+}
+
+/* Form inputs */
+body.dark .clockify-input,
+body.dark .clockify-select,
+body.dark select,
+body.dark textarea,
+body.dark input[type="text"],
+body.dark input[type="url"],
+body.dark input[type="password"],
+body.dark input[type="number"] {
+    background-color: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+    color: var(--ha-text);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+body.dark .clockify-input:focus,
+body.dark textarea:focus,
+body.dark select:focus {
+    border-color: var(--ha-accent);
+}
+
+body.dark .clockify-input::placeholder,
+body.dark textarea::placeholder {
+    color: var(--ha-text-muted);
+}
+
+/* Body textarea (monospace editor) */
+body.dark .ha-body-textarea {
+    background-color: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+    color: var(--ha-text);
+}
+
+/* Table */
+body.dark .clockify-table th {
+    color: var(--ha-text-muted);
+}
+
+body.dark .clockify-table td {
+    border-bottom-color: var(--ha-border);
+}
+
+body.dark .clockify-table tr:hover {
+    background-color: var(--ha-surface-muted);
+}
+
+/* Empty state */
+body.dark .ha-empty-state {
+    color: var(--ha-text-muted);
+}
+
+/* Loading indicator — dark mode */
+body.dark.ha-loading {
+    cursor: wait;
+}
+
+/* Response body / code blocks */
+body.dark .ha-response-body {
+    background: var(--ha-code-bg);
+    color: var(--ha-text);
+}
+
+/* Modal */
+body.dark .modal-dialog {
+    background: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+}
+
+body.dark .modal-header {
+    border-bottom-color: var(--ha-border);
+}
+
+body.dark .modal-footer {
+    border-top-color: var(--ha-border);
+}
+
+/* Labels */
+body.dark .clockify-text-label,
+body.dark label {
+    color: var(--ha-text-muted);
+}
+
+/* Body text */
+body.dark .clockify-text-body2,
+body.dark .clockify-text-body3 {
+    color: var(--ha-text);
+}
+
+body.dark .clockify-text-caption {
+    color: var(--ha-text-muted);
+}
+
+/* Switch component */
+body.dark .ha-switch .clockify-switch {
+    background-color: #3d3f44;
+}
+
+/* Header row in key-value pairs */
+body.dark .ha-header-row .ha-remove-header {
+    color: var(--ha-text-muted);
+}
+
+body.dark .ha-header-row .ha-remove-header:hover {
+    color: var(--ha-danger);
+}
+
+/* Dropdown */
+body.dark .clockify-dropdown {
+    background-color: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+}
+
+body.dark .clockify-dropdown-menu {
+    background-color: var(--ha-surface-elevated);
+    border-color: var(--ha-border);
+}
+
+body.dark .clockify-dropdown-item:hover {
+    background-color: var(--ha-surface-muted);
+}
+
+/* Buttons — keep primary as-is, adjust secondary/ghost */
+body.dark .clockify-btn--secondary {
+    border-color: var(--ha-border);
+    color: var(--ha-text);
+}
+
+body.dark .clockify-btn--secondary:hover {
+    background-color: var(--ha-surface-muted);
+}
+
+body.dark .clockify-btn--ghost {
+    color: var(--ha-text);
+}
+
+body.dark .clockify-btn--ghost:hover {
+    background-color: var(--ha-surface-muted);
+}
+
+/* Status badge colors — keep consistent across themes */
+body.dark .ha-status-success td:nth-child(3) .status {
+    color: var(--ha-success);
+}
+
+body.dark .ha-status-client-error td:nth-child(3) .status {
+    color: var(--ha-warning);
+}
+
+body.dark .ha-status-error td:nth-child(3) .status {
+    color: var(--ha-danger);
+}
+
+/* Scrollbar styling for dark mode */
+body.dark ::-webkit-scrollbar {
+    width: 6px;
+}
+
+body.dark ::-webkit-scrollbar-track {
+    background: var(--ha-surface);
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+    background: var(--ha-border);
+    border-radius: 3px;
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+    background: #555860;
+}
+
+/* Code tag in hint text */
+code {
+    background: var(--ha-code-bg);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+
+body.dark code {
+    background: var(--ha-code-bg);
+    color: var(--ha-text);
+}
+
+/* =========================================
+   P1/P2 Feature Styles
+   ========================================= */
+
+/* Header buttons */
+.ha-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ha-header-buttons button {
+    min-height: 32px;
+    font-size: 13px;
+}
+
+/* Advanced settings toggle */
+.ha-advanced {
+    margin-bottom: 12px;
+    border: 1px solid var(--ha-border);
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+.ha-advanced-toggle {
+    cursor: pointer;
+    user-select: none;
+    padding: 4px 0;
+}
+
+.ha-advanced[open] .ha-advanced-toggle {
+    margin-bottom: 12px;
+}
+
+body.dark .ha-advanced {
+    border-color: var(--ha-border);
+}
+
+/* Condition rows */
+.ha-condition-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+    align-items: center;
+}
+
+.ha-cond-field {
+    width: 35%;
+    flex-shrink: 0;
+}
+
+.ha-cond-op {
+    width: 110px;
+    flex-shrink: 0;
+}
+
+.ha-cond-value {
+    flex: 1;
+}
+
+/* Variable hints */
+.ha-variable-hints {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    background: var(--ha-code-bg);
+    border-radius: 4px;
+}
+
+body.dark .ha-variable-hints {
+    background: var(--ha-surface-muted);
+}
+
+.ha-variable-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.ha-variable-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: var(--ha-accent-bg);
+    color: var(--ha-accent);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ha-variable-chip:hover {
+    background: var(--cl-primary, #03a9f4);
+    color: #fff;
+}
+
+body.dark .ha-variable-chip {
+    background: var(--ha-surface-elevated);
+    color: var(--ha-accent);
+}
+
+body.dark .ha-variable-chip:hover {
+    background: var(--ha-accent);
+    color: #fff;
+}
+
+/* Template modal cards */
+#template-list .ha-action-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+#template-list .ha-action-card-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+@media print {
+    body {
+        padding: 0;
+    }
+
+    .ha-header-buttons,
+    .ha-actions-bar,
+    .modal {
+        display: none !important;
+    }
+}

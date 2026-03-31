@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    <suppress>
+        <notes><![CDATA[
+        CVE-2025-7962 applies to Angus Mail / SMTP handling, not Angus Activation.
+        Dependency-Check issue #8130 tracks this false-positive CPE mapping for
+        org.eclipse.angus:angus-activation -> eclipse:angus_mail.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.eclipse\.angus/angus-activation@.*$</packageUrl>
+        <cve>CVE-2025-7962</cve>
+    </suppress>
+</suppressions>

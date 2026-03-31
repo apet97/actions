@@ -1,0 +1,68 @@
+server:
+  shutdown: graceful
+  tomcat:
+    max-http-form-post-size: 1MB
+    max-swallow-size: 1MB
+  max-http-request-header-size: 64KB
+
+spring:
+  servlet:
+    multipart:
+      max-request-size: 1MB
+      max-file-size: 1MB
+  application:
+    name: clockify-http-actions
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/httpactions}
+    username: ${DB_USER:httpactions}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 600000
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    enabled: true
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=5m
+  threads:
+    virtual:
+      enabled: true
+
+addon:
+  key: ${ADDON_KEY:clockify-http-actions}
+  base-url: ${ADDON_BASE_URL:http://localhost:8080}
+  token-encryption-key: ${TOKEN_ENCRYPTION_KEY}
+  token-encryption-salt: ${TOKEN_ENCRYPTION_SALT}
+  outbound:
+    connect-timeout: 10s
+    read-timeout: 30s
+    rate-limit-per-workspace: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      group:
+        readiness:
+          include: db,diskSpace
+        liveness:
+          include: ping
+  metrics:
+    tags:
+      application: clockify-http-actions
+
+logging:
+  level:
+    com.httpactions: INFO
+    org.springframework.web: WARN

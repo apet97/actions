@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{workspaceId}] %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO"><appender-ref ref="CONSOLE"/></root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeMdcKeyName>workspaceId</includeMdcKeyName>
+                <includeMdcKeyName>addonId</includeMdcKeyName>
+                <includeMdcKeyName>eventType</includeMdcKeyName>
+                <includeMdcKeyName>actionId</includeMdcKeyName>
+            </encoder>
+        </appender>
+        <root level="INFO"><appender-ref ref="JSON"/></root>
+    </springProfile>
+
+    <springProfile name="!dev &amp; !prod">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{workspaceId}] %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO"><appender-ref ref="CONSOLE"/></root>
+    </springProfile>
+
+    <!-- Redact auth tokens from logs -->
+    <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+        <Marker>SENSITIVE</Marker>
+        <OnMatch>DENY</OnMatch>
+    </turboFilter>
+</configuration>

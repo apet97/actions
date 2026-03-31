@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{widget.title}">HTTP Actions Widget</title>
+    <link rel="stylesheet" href="https://resources.developer.clockify.me/ui/latest/css/main.min.css">
+    <link rel="stylesheet" th:href="@{/css/http-actions-theme.css}">
+    <link rel="stylesheet" th:href="@{/css/widget.css}">
+</head>
+<body th:classappend="${isDark} ? 'dark' : ''"
+      th:attr="data-language=${language},data-timezone=${timezone},data-session-expired-message=#{widget.sessionExpired}">
+
+<div class="widget-expired" id="widget-expired" th:text="#{widget.sessionExpired}">
+    Session expired. Reopen the widget from Clockify.
+</div>
+
+<div class="widget-grid" id="widget-grid">
+    <!-- Active Actions -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" id="widget-active-actions" th:text="${stats.activeActionCount}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.activeActions}">Active Actions</div>
+    </div>
+
+    <!-- 24h Executions -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" id="widget-total-executions" th:text="${stats.totalExecutions24h}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.executions24h}">Executions (24h)</div>
+    </div>
+
+    <!-- 24h Failures -->
+    <div class="widget-stat">
+        <div class="widget-stat__value" id="widget-failed-executions" th:text="${stats.failedExecutions24h}">0</div>
+        <div class="widget-stat__label" th:text="#{widget.failures24h}">Failures (24h)</div>
+    </div>
+
+    <!-- Success Rate -->
+    <div class="widget-stat">
+        <div class="widget-stat__value">
+            <span class="ha-badge"
+                  id="widget-success-rate"
+                  th:attr="aria-label=${rateBadgePrefix} + ' ' + #{widget.successRate}"
+                  th:classappend="' ha-badge--' + ${rateClass}"
+                  th:text="${rateBadgePrefix} + ' ' + ${#numbers.formatDecimal(stats.successRate24h, 1, 1)} + '%'">OK 100.0%</span>
+        </div>
+        <div class="widget-stat__label" th:text="#{widget.successRate}">Success Rate</div>
+    </div>
+</div>
+
+<script th:src="@{/js/widget.js}"></script>
+</body>
+</html>
