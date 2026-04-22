@@ -1,8 +1,8 @@
 # Clockify HTTP Actions
 
-A Clockify Marketplace addon that turns webhook events into configurable outbound HTTP requests. Postman meets Zapier, embedded in Clockify's sidebar.
+A Clockify Marketplace add-on that turns webhook events into configurable outbound HTTP requests, configured from the sidebar.
 
-See [SPEC.md](SPEC.md) for the behavior contract and API surface, and [TECH_STACK_HTTP_ACTIONS.md](TECH_STACK_HTTP_ACTIONS.md) for runtime/security/build notes.
+See [SPEC.md](SPEC.md) for the behavior contract.
 
 ## Quick Start
 
@@ -136,4 +136,3 @@ Pre-built templates that call back into the Clockify REST API:
 ## Docs
 
 - [SPEC.md](SPEC.md): endpoint, data model, and behavior contract
-- [TECH_STACK_HTTP_ACTIONS.md](TECH_STACK_HTTP_ACTIONS.md): stack inventory, security posture, and testing model
